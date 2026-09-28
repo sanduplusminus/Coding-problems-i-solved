@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+// Parole
+
+using namespace std;
+
+bool anyXafterY(string s, char x, char y) {
+    bool passed_y = false;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == y && !passed_y) {
+            passed_y = true;
+        }
+        else if (passed_y && s[i] == x) {
+            return true;
+        }
+        else {
+            passed_y = false;
+        }
+    }
+    return false;
+}
+
+bool validPass(string pass) {
+    if (anyXafterY(pass, 'a', 'a') || anyXafterY(pass, 'i', 'a') || anyXafterY(pass, 'o', 'a') || anyXafterY(pass, 'u', 'a')) {
+        return false;
+    }
+    if (anyXafterY(pass, 'e', 'e') || anyXafterY(pass, 'o', 'e') || anyXafterY(pass, 'u', 'e')) {
+        return false;
+    }
+    if (anyXafterY(pass, 'i', 'i')) {
+        return false;
+    }
+    if (anyXafterY(pass, 'a', 'o') || anyXafterY(pass, 'e', 'o') || anyXafterY(pass, 'o', 'o')) {
+        return false;
+    }
+    if (anyXafterY(pass, 'e', 'u') || anyXafterY(pass, 'i', 'u') || anyXafterY(pass, 'o', 'u') || anyXafterY(pass, 'u', 'u')) {
+        return false;
+    }
+    return true;
+}
+
+int main() {
+
+    int n, ans{};
+    vector<char> characters = {'a', 'e', 'i', 'o', 'u'};
+    cin >> n;
+
+    string check;
+    for (int i = 0; i < pow(5, n); i++) {
+        string check(n, 'a');
+
+        int x = i;
+
+        for (int j = n - 1; j >= 0; j--) {
+            check[j] = characters[x % 5];
+            x /= 5;
+        }
+
+        // cout << check << '\n';
+        if (validPass(check)) {
+            ans++;
+        }
+    }
+    cout << ans;
+
+    return 0;
+}
+// done lo
